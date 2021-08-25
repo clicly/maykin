@@ -1133,3 +1133,7 @@ fabric.properties
 # Local History for Visual Studio Code
 .history/
 
+
+# Database SQLite
+db.sqlite3
+
