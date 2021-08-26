@@ -41,16 +41,16 @@ def load_csv_hotel():
             h = hotel.split(';')
             # print(h)
             if len(h) == 3:
-                city_code, hotel_code, hotel_name = str(h[0]).replace('"', ''), str(h[1]).replace('"', ''), str(
+                city_code, code, name = str(h[0]).replace('"', ''), str(h[1]).replace('"', ''), str(
                     h[2]).replace('"', '')
                 # print(city, hotel_code, hotel_name)
             city = City.objects.filter(code=city_code).first()
             if city is not None:
-                hotels_list = Hotel.objects.filter(hotel_code=hotel_code, hotel_name=hotel_name)
+                hotels_list = Hotel.objects.filter(code=code, name=name)
                 if len(hotels_list) == 0:
                     hotel = Hotel()
-                    hotel.hotel_code = hotel_code
-                    hotel.hotel_name = hotel_name
+                    hotel.code = code
+                    hotel.name = name
                     hotel.cit = city
                     hotel.save()
                     print(hotels)

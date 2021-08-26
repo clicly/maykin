@@ -1,0 +1,234 @@
+{% extends "index.html" %}
+{% load static %}
+{% block head %}
+    <script src="{% static 'list.js' %}"></script>
+{% endblock %}
+
+<body>
+<h2>List of City</h2>
+{% block content %}
+    <form method="post" action=".." enctype="multipart/form-data">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-plus"> </i>
+                    {{ title }}
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label>City:</label>
+                    {{ form.city }}
+                </div>
+                <div class="form-group">
+                    <label>Hotel:</label>
+                    {{ form.hotel }}
+                </div>
+                <div class="form-group">
+                    <label>Buscador:</label>
+                    {{ form.search }}
+                </div>
+                <div class="form-group">
+                    <table id="hotel" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>City</th>
+                            <th>Code</th>
+                            <th>Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for obj in object_list %}
+                            <tr>
+                                <td>{{ city.name }}</td>
+                                <td>{{ city.code }}</td>
+                                <td>{{ hotel.code }}</td>
+                                <td>{{ hotel.name }}</td>
+                            </tr>
+                        {% endfor %}
+                        <tfoot>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Office</th>
+                            <th>Age</th>
+                            <th>Start date</th>
+                            <th>Salary</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+    <script>
+
+        var select_city = $('select[name="city"]');
+        var select_hotel = $('select[name="hotel"]');
+        $(function () {
+
+            $('.select2').select2({
+                theme: 'bootstrap4',
+                language: 'es'
+            });
+
+            $('select[name="city"]').on('change', function () {
+                var id = $(this).val();
+                var select_city = $('select[name="city"]');
+                var options = '<option value=""> ---------- </option>';
+                if (id === '') {
+                    select_hotel.html(options);
+                    return false;
+                }
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'search_city_id',
+                        'id': id
+                    },
+                    dataType: 'json',
+                }).done(function (data) {
+                    console.log(data);
+                    if (!data.hasOwnProperty('error')) {
+
+                        select_hotel.html('').select2({
+                            theme: 'bootstrap4',
+                            language: 'es',
+                            data: data
+                        });
+
+                        return false;
+                    }
+                    message_error(data.error);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ': ' + errorThrown);
+                }).always(function (data) {
+                });
+            });
+
+            $('select[name="hotel"]').on('change', function () {
+                var id = $(this).val();
+                var select_hotel = $('select[name="hotel"]');
+                var options = '<option value=""> ---------- </option>';
+                if (id === '') {
+                    select_hotel.html(options);
+                    return false;
+                }
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'search_hotel_id',
+                        'id': id
+                    },
+                    dataType: 'json',
+                }).done(function (data) {
+                    // console.log(data);
+                    if (!data.hasOwnProperty('error')) {
+
+                        select_hotel.html('').select2({
+                            theme: 'bootstrap4',
+                            language: 'es',
+                            data: data
+                        });
+
+                        return false;
+                    }
+                    message_error(data.error);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ': ' + errorThrown);
+                }).always(function (data) {
+                });
+            });
+
+            select_city.on('change', function () {
+                var value = select_city.select2('data');
+                console.log(value);
+            });
+
+            var availableTags = [
+                "ActionScript",
+                "AppleScript",
+                "Asp",
+                "BASIC",
+                "C",
+                "C++",
+                "Clojure",
+                "COBOL",
+                "ColdFusion",
+                "Erlang",
+                "Fortran",
+                "Groovy",
+                "Haskell",
+                "Java",
+                "JavaScript",
+                "Lisp",
+                "Perl",
+                "PHP",
+                "Python",
+                "Ruby",
+                "Scala",
+                "Scheme"
+            ];
+
+            $('input[name="search"]').autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: window.location.pathname,
+                        type: 'POST',
+                        data: {
+                            'action': 'autocomplete',
+                            'term': request.term
+                        },
+                        dataType: 'json',
+                    }).done(function (data) {
+                        response(data);
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        //  alert(textStatus + ': ' + errorThrown);
+                    }).always(function (data) {
+
+                    });
+                },
+                delay: 300,
+                minLength: 1,
+                select: function (event, ui) {
+                    console.log(ui.item);
+                }
+            });
+
+            $('select[name="search"]').select2({
+                theme: 'bootstrap4',
+                language: 'es',
+                allowClear: true,
+                ajax: {
+                    delay: 250,
+                    type: 'POST',
+                    url: window.location.pathname,
+                    data: function (params) {
+                        var queryParameters = {
+                            term: params.term,
+                            'action': 'autocomplete',
+                        }
+                        return queryParameters;
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
+                    },
+                },
+                placeholder: 'Ingrese una descripción',
+                minimumInputLength: 1
+            });
+        });
+
+
+    </script>
+
+{% endblock %}
+
+</body>
+</html>

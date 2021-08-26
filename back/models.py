@@ -24,8 +24,8 @@ class City(models.Model):
 # Hotel Model
 class Hotel(models.Model):
     cit = models.ForeignKey(City, on_delete=models.CASCADE)  # Relationship with city
-    hotel_code = models.CharField(max_length=5, verbose_name='Hotel Code', unique=True)  # Hotel Code
-    hotel_name = models.CharField(max_length=150, verbose_name='Hotel Name')  # Hotel Name
+    code = models.CharField(max_length=5, verbose_name='Hotel Code', unique=True)  # Hotel Code
+    name = models.CharField(max_length=150, verbose_name='Hotel Name')  # Hotel Name
 
     class Meta:
         verbose_name = "Hotel"
@@ -33,10 +33,10 @@ class Hotel(models.Model):
         ordering = ['cit']  # Ordering by city Code
 
     def __str__(self):
-        return self.hotel_name
+        return self.name
 
     # Get full Hotel
     def get_full_hotel(self):
-        return '{} : {} : {}'.format(self.cit, self.hotel_name, self.hotel_name)  # Return complete Hotel ( city : Code : Name )
+        return '{} : {} : {}'.format(self.cit, self.name, self.name)  # Return complete Hotel ( city : Code : Name )
 
 

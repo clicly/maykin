@@ -1,5 +1,12 @@
 from django.forms import *
 from back.models import City, Hotel
+from django.forms.models import inlineformset_factory
+
+
+ChildFormset = inlineformset_factory(
+    City, Hotel, fields=('name','code',)
+)
+
 
 # Form for City Model
 class CityForm(ModelForm):
@@ -25,6 +32,7 @@ class CityForm(ModelForm):
             )
         }
 
+
 # Form for Hotel Model
 class HotelForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -35,13 +43,13 @@ class HotelForm(ModelForm):
         model = Hotel
         fields = '__all__'  # Add all fields
         widgets = {
-            'code': Select(   # TODO: Add Select lib
+            'code': Select(  # TODO: Add Select lib
                 attrs={
                     'class': 'select2',
                     'style': 'width:100%'
                 }
             ),
-            'hotel_code':  TextInput(
+            'hotel_code': TextInput(
                 attrs={
                     'placeholder': 'Enter a Hotel Code'
                 }
@@ -52,3 +60,18 @@ class HotelForm(ModelForm):
                 }
             )
         }
+
+
+class TestForm(Form):
+    city = ModelChoiceField(queryset=City.objects.all(), widget=Select(attrs={
+        'class': 'form-control select2',
+        'style': 'width: 100%'
+    }))
+    hotel = ModelChoiceField(queryset=Hotel.objects.none(), widget=Select(attrs={
+        'class': 'form-control select2',
+        'style': 'width: 100%'
+    }))
+    search = ModelChoiceField(queryset=Hotel.objects.none(), widget=Select(attrs={
+        'class': 'form-control select2',
+        'style': 'width: 100%'
+    }))

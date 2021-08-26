@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Test Maykin Make</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'lib/bootstrap/css/bootstrap.css' %}">
+    <link href="{% static 'lib/select/dist/css/select2.min.css' %}" rel="stylesheet"/>
+    <script rel="stylesheet" src="{% static 'lib/select/dist/js/select2.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/select/dist/css/select2-bootstrap4.min.css'%}">
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+
+    {% block head %}
+
+    {% endblock %}
+
+
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">List of City</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+    </div>
+</nav>
+<br>
+<main class="container">
+    <div class="bg-light p-5 rounded">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+</main>
+
+{% block javascript %}
+
+{% endblock %}
+
+<!-- Optional JavaScript -->
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="{% static 'lib/jquery-3.5.1.js' %}"></script>
+<script src="{% static 'lib/jquery.chained.js' %}"></script>
+<script src="{% static 'lib/popper.min.js' %}"></script>
+<script src="{% static 'lib/select/dist/css/select2-bootstrap4.min.css' %}"></script>
+<script src="{% static 'lib/select/dist/js/select2.min.js' %}"></script>
+<script src="{% static 'lib/jquery.dataTables.min.js' %} " ></script>
+<script src="{% static 'lib/dataTables.bootstrap4.min.js' %}"></script>
+
+</body>
+
+</html>
