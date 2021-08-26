@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from maykin.back.models import *
+from back.models import *
 
 # Register your models here.
 

@@ -16,7 +16,6 @@ class City(models.Model):
     def __str__(self):
         return self.name
 
-
     # Get full city
     def get_full_city(self):
         return '{} : {}'.format(self.code, self.name)  # Return complete city ( Code : Name )

@@ -1,8 +1,8 @@
 from django.forms import *
-from maykin.back.models import City, Hotel
+from back.models import City, Hotel
 
 # Form for City Model
-class CityForm(forms.ModelForm):
+class CityForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['code'].widget.attrs['autofocus'] = True
@@ -26,7 +26,7 @@ class CityForm(forms.ModelForm):
         }
 
 # Form for Hotel Model
-class HotelForm(forms.ModelForm):
+class HotelForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['hotel_name'].widget.attrs['autofocus'] = True
